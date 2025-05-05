@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Прости меня пожалуйста</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        height: 100vh;
+        background: #ffe4ec;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .container {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        padding: 20px;
+      }
+
+      h1 {
+        font-size: 2rem;
+        color: #d63384;
+        margin-bottom: 30px;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+      }
+
+      .buttons {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+
+      button {
+        padding: 15px 30px;
+        font-size: 18px;
+        border: none;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .yes {
+        background-color: #38c172;
+        color: white;
+      }
+
+      .no {
+        background-color: #e3342f;
+        color: white;
+      }
+
+      .heart {
+        position: absolute;
+        color: rgba(255, 105, 180, 0.4);
+        font-size: 24px;
+        animation: floatUp linear infinite;
+      }
+
+      @keyframes floatUp {
+        0% {
+          transform: translateY(0) rotate(0deg);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-100vh) rotate(360deg);
+          opacity: 0;
+        }
+      }
+
+      .final-screen {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        z-index: 3;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 100vw;
+        background: #ffe4ec;
+        padding: 20px;
+      }
+
+      .final-screen img {
+        width: 200px;
+        max-width: 90%;
+        border-radius: 20px;
+        margin-bottom: 20px;
+      }
+
+      .final-screen h2 {
+        font-size: 24px;
+        color: #d63384;
+      }
+
+      @media (max-width: 480px) {
+        h1 {
+          font-size: 1.5rem;
+          margin-bottom: 20px;
+        }
+
+        button {
+          padding: 12px 24px;
+          font-size: 16px;
+        }
+
+        .buttons {
+          gap: 15px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container" id="mainContent">
+      <h1 id="message">Прости меня, Малика</h1>
+      <div class="buttons">
+        <button class="yes" id="yesBtn">Хорошо</button>
+        <button class="no" id="noBtn">Нет</button>
+      </div>
+    </div>
+
+    <div class="final-screen" id="finalScreen">
+      <img src="./giphy.gif" alt="Спасибо!" />
+      <h2>Спасибо ❤️</h2>
+    </div>
+
+    <script>
+      const messages = [
+        "Прости меня пожалуйста 😢",
+        "Ну пожалуйста 🥺",
+        "Я больше так не буду 😔",
+        "Очень сильно прошу 🙏",
+        "ПРОСТИИИИИИ",
+      ];
+
+      const yesBtn = document.getElementById("yesBtn");
+      const noBtn = document.getElementById("noBtn");
+      const message = document.getElementById("message");
+      const mainContent = document.getElementById("mainContent");
+      const finalScreen = document.getElementById("finalScreen");
+
+      let msgIndex = 0;
+      let yesScale = 1;
+      let noScale = 1;
+
+      noBtn.addEventListener("click", () => {
+        if (msgIndex < messages.length - 1) {
+          msgIndex++;
+          message.textContent = messages[msgIndex];
+        }
+
+        yesScale += 0.2;
+        noScale -= 0.05;
+        yesBtn.style.transform = `scale(${yesScale})`;
+        noBtn.style.transform = `scale(${noScale})`;
+      });
+
+      yesBtn.addEventListener("click", () => {
+        mainContent.style.display = "none";
+        finalScreen.style.display = "flex";
+      });
+
+      function createHeart() {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.textContent = "❤️";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDuration = 9 + Math.random() * 4 + "s";
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+          heart.remove();
+        }, 8000);
+      }
+
+      setInterval(createHeart, 300);
+    </script>
+  </body>
+</html>
